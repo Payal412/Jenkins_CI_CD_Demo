@@ -1,0 +1,46 @@
+// Start a new Pipeline
+pipeline {
+    // Run on any Jenkins machine (no restriction)
+    agent any 
+
+    // Start defining steps (like a list of tasks to do)
+    stages {
+        stage('Checkout Code') {
+            steps {
+                // Download your code from GitHub into Jenkins machine - Tell Jenkins where your code lives
+                git branch: 'master', url: 'https://github.com/Payal412/Jenkins_CI_CD_Demo.git'
+            }
+        }
+
+        // Build your project
+        stage('Build') {
+            steps {
+                // Just prints a message on Jenkins consol
+                echo "Building the project..."
+
+                // Example for Java Maven project
+                // Run Maven command to build project (Java apps use Maven)
+                bat 'mvn clean package'
+            }
+        }
+
+        // Run your test cases automatically
+        stage('Test') {
+            steps {
+                echo "Running tests..."
+
+                // Maven will find and run your Selenium or JUnit tests
+                bat 'mvn test'
+            }
+        }
+
+        // Deploy the code (Right now, it's just a dummy deployment for practice — only printing)
+        stage('Deploy') {
+            steps {
+                echo "Deploying the project..."
+                // Simulate deployment
+                bat 'echo Deployment done!'
+            }
+        }
+    }
+}
